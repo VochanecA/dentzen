@@ -2,9 +2,13 @@
 import React, { useState } from 'react';
 import PatientDashboard from './components/PatientDashboard';
 import DentistDashboard from './components/DentistDashboard';
+import AboutPage from './components/AboutPage';
 import { UserRole } from './types';
 
-const LandingPage: React.FC<{ onSelectRole: (role: UserRole) => void }> = ({ onSelectRole }) => {
+const LandingPage: React.FC<{ 
+  onSelectRole: (role: UserRole) => void,
+  onGoToAbout: () => void 
+}> = ({ onSelectRole, onGoToAbout }) => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -14,8 +18,32 @@ const LandingPage: React.FC<{ onSelectRole: (role: UserRole) => void }> = ({ onS
 
   return (
     <div className="bg-slate-50 min-h-screen">
+      {/* Navigation */}
+      <nav className="fixed top-0 left-0 w-full z-50 bg-white/70 backdrop-blur-md border-b border-slate-100 h-16">
+        <div className="container mx-auto px-6 h-full flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center text-white font-bold">D</div>
+            <span className="text-xl font-bold tracking-tight text-slate-800">DentZen</span>
+          </div>
+          <div className="flex items-center gap-8">
+            <button 
+              onClick={onGoToAbout}
+              className="text-sm font-semibold text-slate-600 hover:text-cyan-600 transition-colors"
+            >
+              About
+            </button>
+            <button 
+              onClick={() => scrollToSection('join')}
+              className="text-sm font-bold text-cyan-600 px-4 py-2 border border-cyan-100 rounded-xl hover:bg-cyan-50 transition-all"
+            >
+              Join
+            </button>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-16 pb-20 lg:pt-32 lg:pb-32">
+      <section className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] pointer-events-none">
           <div className="absolute top-[-100px] left-[-200px] w-[500px] h-[500px] bg-cyan-200/30 rounded-full blur-3xl opacity-50"></div>
           <div className="absolute top-[200px] right-[-100px] w-[400px] h-[400px] bg-teal-200/30 rounded-full blur-3xl opacity-50"></div>
@@ -130,15 +158,42 @@ const LandingPage: React.FC<{ onSelectRole: (role: UserRole) => void }> = ({ onS
           </div>
         </div>
       </section>
+
+      {/* Landing Footer */}
+      <footer className="bg-white border-t border-slate-100 py-12">
+        <div className="container mx-auto px-6 flex flex-col items-center">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-6 h-6 bg-cyan-600 rounded flex items-center justify-center text-white font-bold text-xs">D</div>
+            <span className="font-bold text-slate-800">DentZen</span>
+          </div>
+          <p className="text-slate-400 text-sm mb-6">Empowering dental health through technology and empathy.</p>
+          <div className="flex gap-6 mb-8">
+            <button onClick={onGoToAbout} className="text-xs font-bold text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-widest">About</button>
+            <button className="text-xs font-bold text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-widest">Privacy</button>
+            <button className="text-xs font-bold text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-widest">Contact</button>
+          </div>
+          <p className="text-[11px] text-slate-300 font-medium">
+            Built with ❤️ by <span className="text-cyan-500 font-bold">Alen</span> &copy; 2024
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole | null>(null);
+  const [isAboutView, setIsAboutView] = useState(false);
+
+  if (isAboutView) {
+    return <AboutPage onBack={() => setIsAboutView(false)} />;
+  }
 
   if (!role) {
-    return <LandingPage onSelectRole={setRole} />;
+    return <LandingPage 
+      onSelectRole={setRole} 
+      onGoToAbout={() => setIsAboutView(true)} 
+    />;
   }
 
   return (
@@ -151,7 +206,12 @@ const App: React.FC = () => {
           </div>
           <div className="flex items-center gap-4">
              <div className="hidden md:flex items-center gap-6 mr-6">
-                <button className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors">Community</button>
+                <button 
+                  onClick={() => setIsAboutView(true)}
+                  className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors"
+                >
+                  About
+                </button>
                 <button className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors">Support</button>
              </div>
              <div className="flex items-center gap-2">
@@ -170,8 +230,8 @@ const App: React.FC = () => {
         {role === UserRole.PATIENT ? <PatientDashboard /> : <DentistDashboard />}
       </main>
 
-      <footer className="bg-white border-t border-slate-100 py-6 text-center text-slate-400 text-sm">
-        &copy; 2024 DentZen. Making smiles comfortable for Alen and the community.
+      <footer className="bg-white border-t border-slate-100 py-6 text-center text-slate-400 text-xs">
+        &copy; 2024 DentZen. Built by <span className="font-bold text-slate-500 hover:text-cyan-600 cursor-pointer" onClick={() => setIsAboutView(true)}>Alen</span>. Making smiles comfortable for everyone.
       </footer>
     </div>
   );

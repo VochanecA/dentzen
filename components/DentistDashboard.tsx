@@ -109,13 +109,24 @@ const DentistDashboard: React.FC = () => {
         {/* Patient Insights Panel */}
         <div className="space-y-6">
           {selectedPatient ? (
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 animate-in fade-in slide-in-from-right-4">
-              <div className="flex justify-between items-start mb-6">
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-8 animate-in fade-in slide-in-from-right-4 relative">
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedPatient(null)}
+                className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-all"
+                title="Close Insights"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+              </button>
+
+              <div className="flex justify-between items-start mb-6 pr-8">
                 <div>
                   <h3 className="text-xl font-bold text-slate-800">{selectedPatient.name}</h3>
                   <p className="text-slate-400 text-sm">Fear Profile: Tool Vibration, Sharp Sounds</p>
                 </div>
-                <div className="p-3 bg-cyan-50 rounded-xl text-cyan-600 font-bold">
+                <div className="p-3 bg-cyan-50 rounded-xl text-cyan-600 font-bold whitespace-nowrap">
                   {selectedPatient.progress}% Ready
                 </div>
               </div>
