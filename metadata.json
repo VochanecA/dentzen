@@ -1,0 +1,8 @@
+
+{
+  "name": "DentZen - Dental Anxiety Relief",
+  "description": "A comprehensive platform designed to alleviate dental anxiety through interactive exposure therapy, relaxation modules, and dentist-patient communication tools.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
