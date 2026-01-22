@@ -6,10 +6,14 @@
  */
 
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
-const MODEL_NAME = "deepseek/deepseek-r1:free";
+const MODEL_NAME = "deepseek/deepseek-r1-0528:free";
 
+/**
+ * Main fetch wrapper for OpenRouter.
+ * Adheres to system instruction: API key obtained exclusively from process.env.API_KEY.
+ */
 async function callOpenRouter(prompt: string, systemInstruction?: string) {
-  const apiKey = process.env.API_KEY || '';
+  const apiKey = process.env.API_KEY;
   
   if (!apiKey) {
     console.error("OpenRouter Error: API_KEY is missing from environment.");
@@ -32,12 +36,11 @@ async function callOpenRouter(prompt: string, systemInstruction?: string) {
           { "role": "user", "content": prompt }
         ],
         "temperature": 0.7,
-        "max_tokens": 500
+        "max_tokens": 1000
       })
     });
 
     if (!response.ok) {
-      // Try to get detailed error message from OpenRouter
       const errorJson = await response.json().catch(() => ({}));
       const errorMessage = errorJson.error?.message || response.statusText;
       throw new Error(`OpenRouter API error: ${response.status} - ${errorMessage}`);
@@ -60,16 +63,15 @@ async function callOpenRouter(prompt: string, systemInstruction?: string) {
 
 /**
  * Cleans the output from reasoning models like DeepSeek-R1 
- * which often include <thought> blocks or extensive reasoning.
+ * which often include <thought> blocks or extensive reasoning tags.
  */
 function cleanDeepSeekResponse(text: string | null): string {
   if (!text) return "";
   
-  // Remove <thought>...</thought> blocks
+  // Remove <thought>...</thought> blocks (case-insensitive)
   let cleaned = text.replace(/<thought>[\s\S]*?<\/thought>/gi, '');
   
-  // Also handle cases where reasoning is at the start without tags (common in some R1 versions)
-  // or separated by multiple newlines
+  // Handle some models that might use markdown-style thought blocks or plain text reasoning
   const parts = cleaned.split(/\n\n+/);
   if (parts.length > 1 && (parts[0].toLowerCase().includes("i should") || parts[0].toLowerCase().includes("the user is"))) {
     cleaned = parts.slice(1).join('\n\n');
@@ -78,6 +80,9 @@ function cleanDeepSeekResponse(text: string | null): string {
   return cleaned.trim();
 }
 
+/**
+ * Provides empathetic reassurance for patient fears.
+ */
 export const getReassurance = async (fear: string) => {
   const systemPrompt = "You are a comforting dental assistant. Provide a short (under 80 words), gentle, and medically reassuring explanation to help a patient with their specific fear. Do not use technical jargon. Be empathetic and warm.";
   const result = await callOpenRouter(`I am a patient and I am extremely afraid of: "${fear}". Please talk to me gently.`, systemPrompt);
@@ -87,6 +92,9 @@ export const getReassurance = async (fear: string) => {
   return cleaned || "You are in safe hands. Modern dental techniques prioritize your comfort above all else, and we can go as slow as you need.";
 };
 
+/**
+ * Analyzes anxiety history for clinical insights for the dentist.
+ */
 export const getDentistInsights = async (anxietyHistory: any[]) => {
   const systemPrompt = "You are a clinical psychology consultant for dentists. Analyze patient data and provide actionable, brief communication tips.";
   const prompt = `Based on this patient's anxiety history: ${JSON.stringify(anxietyHistory)}, provide 3 brief bullet points for a dentist on how to best communicate with this patient. Focus on psychological safety.`;
@@ -98,8 +106,7 @@ export const getDentistInsights = async (anxietyHistory: any[]) => {
 };
 
 /**
- * Since DeepSeek is a text model, we use it to extract keywords for a 
- * therapeutic visual, then return a high-quality Unsplash image URL.
+ * Uses text generation to extract sanctuary keywords, then maps to a high-quality Unsplash source.
  */
 export const generateSanctuaryImage = async (prompt: string) => {
   try {
@@ -113,7 +120,7 @@ export const generateSanctuaryImage = async (prompt: string) => {
     // Return a high-quality Unsplash source URL using the extracted keywords
     return `https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1600&keywords=${encodeURIComponent(keywords)}`;
   } catch (error) {
-    console.error("Sanctuary Error:", error);
+    console.error("Sanctuary Image Error:", error);
     return `https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&q=80&w=1600`;
   }
 };
