@@ -3,12 +3,17 @@ import React, { useState, useEffect } from 'react';
 import PatientDashboard from './components/PatientDashboard';
 import DentistDashboard from './components/DentistDashboard';
 import AboutPage from './components/AboutPage';
+import TermsPage from './components/TermsPage';
+import PrivacyPage from './components/PrivacyPage';
+import ClinicsPage from './components/ClinicsPage';
 import { UserRole } from './types';
+
+type AppView = 'LANDING' | 'ABOUT' | 'TERMS' | 'PRIVACY' | 'CLINICS' | 'DASHBOARD';
 
 const LandingPage: React.FC<{ 
   onSelectRole: (role: UserRole) => void,
-  onGoToAbout: () => void 
-}> = ({ onSelectRole, onGoToAbout }) => {
+  setView: (view: AppView) => void
+}> = ({ onSelectRole, setView }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -35,7 +40,7 @@ const LandingPage: React.FC<{
           </div>
           <div className="flex items-center gap-4 md:gap-8">
             <button 
-              onClick={onGoToAbout}
+              onClick={() => setView('ABOUT')}
               className="hidden sm:block text-sm font-bold text-slate-600 hover:text-cyan-600 transition-colors"
             >
               About
@@ -52,12 +57,9 @@ const LandingPage: React.FC<{
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-white">
-        {/* Animated Background Elements */}
         <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] left-[-5%] w-[60%] h-[60%] bg-cyan-100/40 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '8s' }}></div>
           <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-teal-100/40 rounded-full blur-[100px] animate-pulse" style={{ animationDuration: '10s' }}></div>
-          
-          {/* Decorative Grid */}
           <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150 pointer-events-none"></div>
           <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:32px_32px] opacity-30"></div>
         </div>
@@ -98,7 +100,6 @@ const LandingPage: React.FC<{
                 </button>
               </div>
 
-              {/* Trusted Indicators */}
               <div className="flex items-center gap-6 pt-4 border-t border-slate-100">
                 {/* <div className="flex -space-x-3">
                   {[1,2,3,4].map(i => (
@@ -115,7 +116,6 @@ const LandingPage: React.FC<{
             </div>
 
             <div className="hidden lg:block relative animate-in fade-in slide-in-from-right-12 duration-1000 delay-200">
-              {/* Main Visual Element - "The Floating Dashboard Card" */}
               <div className="relative z-10 bg-white/40 backdrop-blur-3xl rounded-[40px] border border-white/50 shadow-2xl p-8 rotate-[-2deg] hover:rotate-0 transition-all duration-700">
                 <div className="bg-slate-50 rounded-[32px] overflow-hidden shadow-inner border border-slate-200/50">
                    <div className="h-12 bg-white/80 border-b border-slate-200 flex items-center px-6 gap-2">
@@ -132,23 +132,11 @@ const LandingPage: React.FC<{
                         <div className="h-10 w-10 bg-cyan-100 rounded-xl"></div>
                       </div>
                       <div className="h-56 relative bg-gradient-to-br from-cyan-50 to-indigo-50 rounded-2xl overflow-hidden shadow-lg border border-slate-200/50">
-                         {/* Displayed image as main visualization */}
                          <img 
-                           src="/dental.webp" 
+                           src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1000" 
                            alt="Modern Dental Experience" 
                            className="w-full h-full object-cover opacity-90 transition-transform duration-1000 hover:scale-105"
-                           onError={(e) => {
-                             // Fallback if image doesn't exist in public
-                             (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&q=80&w=1000";
-                           }}
                          />
-                         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none"></div>
-                         <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                            <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center">
-                               <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse"></div>
-                            </div>
-                            <span className="text-[10px] font-bold text-white uppercase tracking-widest">Active Monitoring</span>
-                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div className="h-16 bg-white rounded-xl shadow-sm p-3 flex flex-col justify-center gap-1.5">
@@ -163,99 +151,19 @@ const LandingPage: React.FC<{
                    </div>
                 </div>
               </div>
-
-              {/* Floating Accents */}
-              <div className="absolute top-[20%] right-[-10%] bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-bounce" style={{ animationDuration: '4s' }}>
-                 <div className="flex items-center gap-3">
-                   <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center font-black">✓</div>
-                   <div className="text-xs">
-                     <p className="font-bold text-slate-800">Relaxation Complete</p>
-                     <p className="text-slate-400">Anxiety Level: 2/10</p>
-                   </div>
-                 </div>
-              </div>
-
-              <div className="absolute bottom-[10%] left-[-15%] bg-white p-5 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{ animationDuration: '6s' }}>
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-cyan-600 rounded-xl flex items-center justify-center text-white font-bold">Zen</div>
-                  <div className="space-y-1">
-                    <div className="h-2 w-20 bg-slate-100 rounded"></div>
-                    <div className="h-2 w-12 bg-slate-100 rounded"></div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Features Grid */}
-      <section id="features" className="py-32 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="text-center mb-24">
-            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 mb-6 tracking-tight">Science-Backed Relief</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">We use proven psychological techniques to desensitize dental triggers and build lasting clinical trust.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-            {[
-              {
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
-                  </svg>
-                ),
-                color: "bg-cyan-100 text-cyan-600",
-                hover: "group-hover:bg-cyan-600",
-                title: "Zen Audio Therapy",
-                desc: "Softened versions of dental tool sounds to normalize the clinical environment from the comfort of home."
-              },
-              {
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                  </svg>
-                ),
-                color: "bg-teal-100 text-teal-600",
-                hover: "group-hover:bg-teal-600",
-                title: "Guided Relaxation",
-                desc: "Interactive box-breathing and mindfulness exercises tailored specifically for medical environments."
-              },
-              {
-                icon: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                ),
-                color: "bg-indigo-100 text-indigo-600",
-                hover: "group-hover:bg-indigo-600",
-                title: "Clinical Insights",
-                desc: "Dentists receive AI-powered communication guides based on patient anxiety trends for better care."
-              }
-            ].map((feature, i) => (
-              <div key={i} className="group p-10 rounded-[40px] bg-slate-50 border border-slate-100 hover:border-cyan-200 transition-all hover:bg-white hover:shadow-2xl hover:shadow-cyan-100/50 hover:-translate-y-2">
-                <div className={`w-16 h-16 ${feature.color} rounded-2xl flex items-center justify-center mb-8 ${feature.hover} group-hover:text-white transition-all shadow-sm`}>
-                  {feature.icon}
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">{feature.title}</h3>
-                <p className="text-slate-500 leading-relaxed">{feature.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Role Selection / Join Section */}
+      {/* Role Selection */}
       <section id="join" className="py-32 bg-slate-50 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[40%] h-[40%] bg-cyan-100/30 blur-[100px] rounded-full"></div>
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
             <div className="text-center mb-20">
               <h2 className="text-5xl font-black text-slate-900 mb-6 tracking-tight">Choose Your Experience</h2>
-              <p className="text-slate-600 text-lg max-w-2xl mx-auto">Whether you're visiting for a checkup or managing a clinic, we have tools designed just for you.</p>
             </div>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-              {/* Patient Card */}
               <button 
                 className="bg-white p-12 rounded-[48px] shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center text-center group cursor-pointer hover:border-cyan-400 transition-all transform hover:-translate-y-2"
                 onClick={() => onSelectRole(UserRole.PATIENT)}
@@ -266,11 +174,8 @@ const LandingPage: React.FC<{
                   </svg>
                 </div>
                 <h2 className="text-3xl font-black text-slate-900 mb-6">Patient</h2>
-                <p className="text-slate-500 text-lg leading-relaxed mb-10">Prepare for your next visit with calming tools and gentle education. Personalized for your specific dental fears.</p>
-                <div className="mt-auto w-full py-5 bg-cyan-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-cyan-700 transition-all shadow-xl shadow-cyan-200">Enter Relax Zone</div>
+                <div className="mt-auto w-full py-5 bg-cyan-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-cyan-200">Enter Relax Zone</div>
               </button>
-
-              {/* Dentist Card */}
               <button 
                 className="bg-white p-12 rounded-[48px] shadow-2xl shadow-slate-200/50 border border-slate-100 flex flex-col items-center text-center group cursor-pointer hover:border-teal-400 transition-all transform hover:-translate-y-2"
                 onClick={() => onSelectRole(UserRole.DENTIST)}
@@ -281,8 +186,7 @@ const LandingPage: React.FC<{
                   </svg>
                 </div>
                 <h2 className="text-3xl font-black text-slate-900 mb-6">Dentist</h2>
-                <p className="text-slate-500 text-lg leading-relaxed mb-10">Monitor patient anxiety and provide personalized care recommendations. Improve clinical success and patient retention.</p>
-                <div className="mt-auto w-full py-5 bg-teal-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-teal-700 transition-all shadow-xl shadow-teal-200">Clinic Portal</div>
+                <div className="mt-auto w-full py-5 bg-teal-600 text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-teal-200">Clinic Portal</div>
               </button>
             </div>
           </div>
@@ -295,18 +199,17 @@ const LandingPage: React.FC<{
           <div className="flex flex-col items-center">
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center text-white font-bold">D</div>
-              <span className="text-2xl font-black text-slate-900 tracking-tight">DentZen</span>
+              <span className="text-2xl font-black text-slate-900 tracking-tight text-center">DentZen</span>
             </div>
-            <p className="text-slate-400 text-center max-w-sm mb-12">Building a future where dental health is synonymous with peace of mind. Empathetic technology for a healthier world.</p>
             <div className="flex flex-wrap justify-center gap-10 mb-16">
-              <button onClick={onGoToAbout} className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">About</button>
-              <button className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">Privacy</button>
-              <button className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">Terms</button>
-              <button className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">Clinics</button>
+              <button onClick={() => setView('ABOUT')} className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">About</button>
+              <button onClick={() => setView('PRIVACY')} className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">Privacy</button>
+              <button onClick={() => setView('TERMS')} className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">Terms</button>
+              <button onClick={() => setView('CLINICS')} className="text-xs font-black text-slate-500 hover:text-cyan-600 transition-colors uppercase tracking-[0.2em]">Clinics</button>
             </div>
             <div className="pt-8 border-t border-slate-100 w-full text-center">
               <p className="text-[11px] text-slate-300 font-bold uppercase tracking-widest">
-                Built with ❤️ by <span className="text-cyan-500">Alen</span> &copy; 2026 • Montenegro
+                Built with ❤️ by <span className="text-cyan-500">Alen</span> &copy; 2024
               </p>
             </div>
           </div>
@@ -318,56 +221,74 @@ const LandingPage: React.FC<{
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole | null>(null);
-  const [isAboutView, setIsAboutView] = useState(false);
+  const [currentView, setCurrentView] = useState<AppView>('LANDING');
 
-  if (isAboutView) {
-    return <AboutPage onBack={() => setIsAboutView(false)} />;
-  }
+  useEffect(() => {
+    // Reset view to landing if role is cleared
+    if (!role && currentView === 'DASHBOARD') {
+      setCurrentView('LANDING');
+    }
+  }, [role, currentView]);
 
-  if (!role) {
-    return <LandingPage 
-      onSelectRole={setRole} 
-      onGoToAbout={() => setIsAboutView(true)} 
-    />;
-  }
+  const handleSelectRole = (selectedRole: UserRole) => {
+    setRole(selectedRole);
+    setCurrentView('DASHBOARD');
+  };
+
+  const renderContent = () => {
+    switch (currentView) {
+      case 'ABOUT':
+        return <AboutPage onBack={() => setCurrentView('LANDING')} />;
+      case 'TERMS':
+        return <TermsPage onBack={() => setCurrentView('LANDING')} />;
+      case 'PRIVACY':
+        return <PrivacyPage onBack={() => setCurrentView('LANDING')} />;
+      case 'CLINICS':
+        return <ClinicsPage onBack={() => setCurrentView('LANDING')} />;
+      case 'DASHBOARD':
+        return (
+          <div className="min-h-screen flex flex-col bg-slate-50">
+            <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
+              <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                <div className="flex items-center gap-2 cursor-pointer" onClick={() => setRole(null)}>
+                  <div className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center text-white font-bold">D</div>
+                  <span className="text-xl font-bold tracking-tight text-slate-800">DentZen</span>
+                </div>
+                <div className="flex items-center gap-4">
+                   <div className="hidden md:flex items-center gap-6 mr-6">
+                      <button onClick={() => setCurrentView('ABOUT')} className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors">About</button>
+                      <button onClick={() => setCurrentView('CLINICS')} className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors">Find Clinic</button>
+                   </div>
+                   <div className="flex items-center gap-2">
+                     <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-2 py-1 rounded">
+                       {role === UserRole.PATIENT ? 'Patient Mode' : 'Clinic Portal'}
+                     </span>
+                     <div className="w-8 h-8 bg-cyan-100 text-cyan-700 flex items-center justify-center rounded-full border border-cyan-200 font-bold text-xs">
+                       {role === UserRole.PATIENT ? 'A' : 'Dr'}
+                     </div>
+                   </div>
+                </div>
+              </div>
+            </nav>
+            <main className="flex-1">
+              {role === UserRole.PATIENT ? <PatientDashboard /> : <DentistDashboard />}
+            </main>
+          </div>
+        );
+      case 'LANDING':
+      default:
+        return <LandingPage onSelectRole={handleSelectRole} setView={setCurrentView} />;
+    }
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
-      <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setRole(null)}>
-            <div className="w-8 h-8 bg-cyan-600 rounded-lg flex items-center justify-center text-white font-bold">D</div>
-            <span className="text-xl font-bold tracking-tight text-slate-800">DentZen</span>
-          </div>
-          <div className="flex items-center gap-4">
-             <div className="hidden md:flex items-center gap-6 mr-6">
-                <button 
-                  onClick={() => setIsAboutView(true)}
-                  className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors"
-                >
-                  About
-                </button>
-                <button className="text-sm font-medium text-slate-600 hover:text-cyan-600 transition-colors">Support</button>
-             </div>
-             <div className="flex items-center gap-2">
-               <span className="text-xs font-semibold text-slate-400 bg-slate-100 px-2 py-1 rounded">
-                 {role === UserRole.PATIENT ? 'Patient Mode' : 'Clinic Portal'}
-               </span>
-               <div className="w-8 h-8 bg-cyan-100 text-cyan-700 flex items-center justify-center rounded-full border border-cyan-200 font-bold text-xs">
-                 {role === UserRole.PATIENT ? 'A' : 'Dr'}
-               </div>
-             </div>
-          </div>
-        </div>
-      </nav>
-      
-      <main className="flex-1">
-        {role === UserRole.PATIENT ? <PatientDashboard /> : <DentistDashboard />}
-      </main>
-
-      <footer className="bg-white border-t border-slate-100 py-6 text-center text-slate-400 text-xs">
-        &copy; 2026 DentZen. Built by <span className="font-bold text-slate-500 hover:text-cyan-600 cursor-pointer" onClick={() => setIsAboutView(true)}>Alen</span>. Making smiles comfortable for everyone.
-      </footer>
+    <div className="min-h-screen">
+      {renderContent()}
+      {currentView !== 'LANDING' && (
+         <footer className="bg-white border-t border-slate-100 py-6 text-center text-slate-400 text-xs">
+           &copy; 2026 DentZen. Making smiles comfortable for everyone.
+         </footer>
+      )}
     </div>
   );
 };

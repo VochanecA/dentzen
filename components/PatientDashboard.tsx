@@ -417,7 +417,7 @@ const PatientDashboard: React.FC = () => {
                 }}
                 className="text-xs text-slate-400 hover:text-slate-300 transition-all"
               >
-                Remove saved API key
+                {/* Remove saved API key */}
               </button>
             </div>
           )}
