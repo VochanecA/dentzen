@@ -7,6 +7,7 @@ import MindfulnessAffirmations from './MindfulnessAffirmations';
 import VisualSanctuary from './VisualSanctuary';
 import ProgressiveRelaxation from './ProgressiveRelaxation';
 import AmbientSoundscape from './AmbientSoundscape';
+import CalmingMusicPlayer from './CalmingMusicPlayer';
 import { PROCEDURES, CALMING_TIPS } from '../constants';
 import { getReassurance } from '../services/geminiService';
 
@@ -202,6 +203,7 @@ const PatientDashboard: React.FC = () => {
             <VisualSanctuary />
           </div>
           <div className="lg:col-span-3 flex flex-col gap-8">
+            <CalmingMusicPlayer />
             <ProgressiveRelaxation />
             <JawResetTool />
             <ExposureTool />

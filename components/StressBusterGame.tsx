@@ -23,11 +23,12 @@ interface Particle {
 }
 
 const ALASKA_IMAGES = [
-  "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=1000",
-  "https://images.unsplash.com/photo-1544198365-f5d60b6d8190?auto=format&fit=crop&q=80&w=1000",
-  "https://images.unsplash.com/photo-1533512930330-4ac257c86793?auto=format&fit=crop&q=80&w=1000",
-  "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1000",
-  "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&q=80&w=1000"
+  "/Alaska1.jpg",
+  "/Alaska2.jpg",
+  "/Alaska3.jpg",
+  "/Alaska4.jpg",
+  "/Alaska5.jpg",
+  "/Alaska6.jpg"
 ];
 
 const StressBusterGame: React.FC = () => {
