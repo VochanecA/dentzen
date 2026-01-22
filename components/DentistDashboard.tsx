@@ -69,38 +69,66 @@ const DentistDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {MOCK_PATIENTS.map((p) => (
-                  <tr 
-                    key={p.id} 
-                    onClick={() => setSelectedPatient(p)}
-                    className={`cursor-pointer transition-colors ${selectedPatient?.id === p.id ? 'bg-cyan-50' : 'hover:bg-slate-50'}`}
-                  >
-                    <td className="px-6 py-4 font-medium text-slate-800">{p.name}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                          <div 
-                            className={`h-full rounded-full ${p.anxiety > 7 ? 'bg-rose-500' : p.anxiety > 4 ? 'bg-amber-400' : 'bg-emerald-500'}`}
-                            style={{ width: `${p.anxiety * 10}%` }}
-                          />
+                {MOCK_PATIENTS.map((p) => {
+                  const isSelected = selectedPatient?.id === p.id;
+                  return (
+                    <tr 
+                      key={p.id} 
+                      onClick={() => setSelectedPatient(p)}
+                      className={`cursor-pointer transition-all border-l-4 ${
+                        isSelected 
+                          ? 'bg-cyan-50/80 border-cyan-600 shadow-[inset_0_1px_2px_rgba(0,0,0,0.02)]' 
+                          : 'hover:bg-slate-50 border-transparent'
+                      }`}
+                    >
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col">
+                          <span className={`font-medium ${isSelected ? 'text-cyan-900' : 'text-slate-800'}`}>{p.name}</span>
+                          {isSelected && <span className="text-[10px] text-cyan-600 font-bold uppercase tracking-tight">Active Selection</span>}
                         </div>
-                        <span className="text-xs font-bold">{p.anxiety}/10</span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-sm text-slate-500">{p.lastModule}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase ${
-                        p.status === 'Ready' ? 'bg-emerald-100 text-emerald-700' :
-                        p.status === 'Concern' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'
-                      }`}>
-                        {p.status}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button className="text-cyan-600 text-sm font-semibold">View Detail</button>
-                    </td>
-                  </tr>
-                ))}
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full rounded-full ${p.anxiety > 7 ? 'bg-rose-500' : p.anxiety > 4 ? 'bg-amber-400' : 'bg-emerald-500'}`}
+                              style={{ width: `${p.anxiety * 10}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-bold">{p.anxiety}/10</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-500">{p.lastModule}</td>
+                      <td className="px-6 py-4">
+                        <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase ${
+                          p.status === 'Ready' ? 'bg-emerald-100 text-emerald-700' :
+                          p.status === 'Concern' ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700'
+                        }`}>
+                          {p.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <button 
+                          disabled={isSelected}
+                          className={`text-sm font-semibold transition-all ${
+                            isSelected 
+                              ? 'text-slate-300 cursor-not-allowed flex items-center gap-1 justify-end w-full' 
+                              : 'text-cyan-600 hover:text-cyan-800'
+                          }`}
+                        >
+                          {isSelected ? (
+                            <>
+                              Viewing
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                            </>
+                          ) : 'View Detail'}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

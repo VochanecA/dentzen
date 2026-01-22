@@ -3,8 +3,54 @@ import React, { useState } from 'react';
 import BreathingExercise from './BreathingExercise';
 import ExposureTool from './ExposureTool';
 import StressBusterGame from './StressBusterGame';
+import MindfulnessAffirmations from './MindfulnessAffirmations';
+import VisualSanctuary from './VisualSanctuary';
+import ProgressiveRelaxation from './ProgressiveRelaxation';
+import AmbientSoundscape from './AmbientSoundscape';
 import { PROCEDURES, CALMING_TIPS } from '../constants';
 import { getReassurance } from '../services/geminiService';
+
+const JawResetTool: React.FC = () => {
+  const [active, setActive] = useState(false);
+  return (
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="font-bold text-slate-800">Physical Check-in</h3>
+        <span className="text-[10px] bg-slate-100 px-2 py-0.5 rounded-full font-bold text-slate-400 uppercase tracking-tight">Somatic Reset</span>
+      </div>
+      <div className="space-y-4">
+        <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-cyan-100 flex items-center justify-center text-cyan-600">
+             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+             </svg>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-slate-700">Jaw Release</p>
+            <p className="text-xs text-slate-500">Gently drop your lower jaw. Let your teeth stay slightly apart.</p>
+          </div>
+        </div>
+        <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 flex items-center gap-4">
+          <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+             </svg>
+          </div>
+          <div>
+            <p className="text-sm font-bold text-slate-700">Shoulder Drop</p>
+            <p className="text-xs text-slate-500">Exhale and visualize your shoulders melting away from your ears.</p>
+          </div>
+        </div>
+      </div>
+      <button 
+        onClick={() => setActive(!active)}
+        className={`w-full mt-4 py-3 rounded-xl text-xs font-bold uppercase tracking-widest transition-all ${active ? 'bg-cyan-50 text-cyan-600 border border-cyan-100' : 'bg-slate-900 text-white hover:bg-slate-800'}`}
+      >
+        {active ? 'Relaxation Active' : 'Begin Scan'}
+      </button>
+    </div>
+  );
+};
 
 const PatientDashboard: React.FC = () => {
   const [view, setView] = useState<'overview' | 'modules' | 'education'>('overview');
@@ -17,7 +63,7 @@ const PatientDashboard: React.FC = () => {
   const askAI = async () => {
     if (!query) return;
     setLoading(true);
-    setFeedback(null); // Reset feedback for new query
+    setFeedback(null); 
     const res = await getReassurance(query);
     setAiResponse(res || '');
     setLoading(false);
@@ -25,12 +71,11 @@ const PatientDashboard: React.FC = () => {
 
   const handleFeedback = (type: 'positive' | 'negative') => {
     setFeedback(type);
-    // In a production app, you would send this to your backend/Supabase here
     console.log(`User feedback for AI response: ${type}`);
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-8">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
@@ -61,7 +106,6 @@ const PatientDashboard: React.FC = () => {
 
       {view === 'overview' && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Daily Check-in */}
           <div className="lg:col-span-2 bg-white p-8 rounded-2xl shadow-sm border border-slate-100">
             <h2 className="text-xl font-semibold mb-6">How are you feeling about your next visit?</h2>
             <div className="flex flex-col gap-8">
@@ -90,7 +134,6 @@ const PatientDashboard: React.FC = () => {
             </div>
           </div>
 
-          {/* AI Companion */}
           <div className="bg-gradient-to-br from-cyan-600 to-teal-600 p-8 rounded-2xl shadow-lg text-white">
             <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -141,11 +184,6 @@ const PatientDashboard: React.FC = () => {
                     </svg>
                   </button>
                 </div>
-                {feedback && (
-                  <p className="text-[10px] text-center text-cyan-100/80 italic animate-in fade-in slide-in-from-top-1">
-                    Thank you for your feedback!
-                  </p>
-                )}
               </div>
             )}
           </div>
@@ -153,13 +191,20 @@ const PatientDashboard: React.FC = () => {
       )}
 
       {view === 'modules' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex flex-col gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="lg:col-span-4 flex flex-col gap-8">
             <BreathingExercise />
-            <ExposureTool />
+            <AmbientSoundscape />
+            <MindfulnessAffirmations />
           </div>
-          <div className="h-full">
+          <div className="lg:col-span-5 flex flex-col gap-8">
             <StressBusterGame />
+            <VisualSanctuary />
+          </div>
+          <div className="lg:col-span-3 flex flex-col gap-8">
+            <ProgressiveRelaxation />
+            <JawResetTool />
+            <ExposureTool />
           </div>
         </div>
       )}
