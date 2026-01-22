@@ -24,7 +24,7 @@ const TermsPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
       <div className="max-w-3xl mx-auto px-6 py-16 lg:py-24">
         <h1 className="text-4xl font-black text-slate-900 mb-8">Terms of Service</h1>
-        <p className="text-slate-500 mb-12">Last Updated: May 2024</p>
+        <p className="text-slate-500 mb-12">Last Updated: May 2026</p>
 
         <div className="space-y-12">
           <section>

@@ -209,7 +209,7 @@ const LandingPage: React.FC<{
             </div>
             <div className="pt-8 border-t border-slate-100 w-full text-center">
               <p className="text-[11px] text-slate-300 font-bold uppercase tracking-widest">
-                Built with ❤️ by <span className="text-cyan-500">Alen</span> &copy; 2024
+                Built with ❤️ by <span className="text-cyan-500">Alen</span> &copy; 2026
               </p>
             </div>
           </div>
