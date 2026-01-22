@@ -240,7 +240,7 @@ const PatientDashboard: React.FC = () => {
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Welcome back, Alen</h1>
+          <h1 className="text-3xl font-bold text-slate-900">Welcome back, patient</h1>
           <p className="text-slate-500">Your journey to a stress-free smile.</p>
         </div>
         <div className="flex gap-2 p-1 bg-white rounded-xl shadow-sm border border-slate-100">
