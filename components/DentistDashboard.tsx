@@ -4,10 +4,10 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { getDentistInsights } from '../services/geminiService';
 
 const MOCK_PATIENTS = [
-  { id: '1', name: 'Sarah Miller', anxiety: 8, lastModule: 'Breathing Ex', progress: 65, status: 'Concern' },
-  { id: '2', name: 'John Doe', anxiety: 3, lastModule: 'Cleaning Prep', progress: 90, status: 'Ready' },
-  { id: '3', name: 'Emma Wilson', anxiety: 9, lastModule: 'None', progress: 10, status: 'At Risk' },
-  { id: '4', name: 'James Knight', anxiety: 5, lastModule: 'Tool Exposure', progress: 40, status: 'Monitoring' },
+  { id: '1', name: 'Ja', anxiety: 8, lastModule: 'Breathing Ex', progress: 65, status: 'Concern' },
+  // { id: '2', name: 'John Doe', anxiety: 3, lastModule: 'Cleaning Prep', progress: 90, status: 'Ready' },
+  // { id: '3', name: 'Emma Wilson', anxiety: 9, lastModule: 'None', progress: 10, status: 'At Risk' },
+  // { id: '4', name: 'James Knight', anxiety: 5, lastModule: 'Tool Exposure', progress: 40, status: 'Monitoring' },
 ];
 
 const MOCK_CHART_DATA = [

@@ -100,13 +100,13 @@ const LandingPage: React.FC<{
 
               {/* Trusted Indicators */}
               <div className="flex items-center gap-6 pt-4 border-t border-slate-100">
-                <div className="flex -space-x-3">
+                {/* <div className="flex -space-x-3">
                   {[1,2,3,4].map(i => (
                     <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center overflow-hidden">
                       <img src={`https://i.pravatar.cc/100?u=${i*10}`} alt="User" />
                     </div>
                   ))}
-                </div>
+                </div> */}
                 <div className="text-sm">
                   <p className="font-bold text-slate-900 tracking-tight">Trusted by 1 patient...me</p>
                   {/* <p className="text-slate-500">Across 450 global partner clinics</p> */}
